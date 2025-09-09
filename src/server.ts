@@ -1,21 +1,19 @@
-import express, { Request, Response } from 'express';
+import dotenv from "dotenv"
+dotenv.config()
 import connectDB from './config/db';
-import barberRoutes from './routes/barberRoutes';
+import app from "./app/app"
+const PORT = process.env.PORT
+
+const env = process.env.NODE_ENV || "development";
+
 
 
 connectDB()
-const app = express();
-const port = 3000;
+.then((conn) => {
+  app.listen(PORT, () => {
+    const connectionString = env === 'production' 
+                        ? console.log(`Server running at ${conn.connection.host}`)
+                        :console.log(`Server running at http://localhost:${PORT}`)
+  });
+})
 
-
-app.use(express.json())
-app.use('/api/v1/barbers', barberRoutes)
-
-app.get("/", (req: Request, res: Response) => {
-  res.json({ method: req.method, message: "Server is live 🚀" });
-});
-
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
