@@ -1,15 +1,18 @@
-import { JWTPayload } from "../types"
+import { error } from "console";
+import { JWTPayload } from "../types";
+import jwt from "jsonwebtoken";
 
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = process.env.JWT_SECRET
+/* 
+    Using non-null assertion "!" at the end 
+    to let TS know that a secret will always exist thus 
+    getting rid of the overload error
+*/
+const JWT_SECRET = process.env.JWT_SECRET!; 
 
+export const signToken = (payload: JWTPayload) => {
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+};
 
-const signToken = (payload:JWTPayload) => {
-    return jwt.sign(payload, JWT_SECRET, {expiresIn:"1h"})
-}
-
-const verifyToken = (token:string) => {
-    return jwt.verify(token, process.env.JWT_SECRET)
-}
-
-module.exports = {signToken, verifyToken}
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, JWT_SECRET);
+};

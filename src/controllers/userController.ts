@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser } from "../services/userService";
+import { createUser, loginUser } from "../services/userService";
 
 export const registerNewUser = async(req:Request, res:Response) => {
     try{
@@ -12,8 +12,19 @@ export const registerNewUser = async(req:Request, res:Response) => {
         const newUser = await createUser(req.body)
         res.status(201).json(newUser)
 
-    }catch(error:unknown){
+    }catch(error){
         res.status(500).json('internal server error')
     }
 }
+
+export const loginExistingUser = async(req:Request, res:Response) => {
+    try{
+        const {username, email, password} = req.body
+        const user = await loginUser({username, email, password})
+        return res.status(200).json(user)
+    }catch(error){
+        res.status(500).json('internal server error')
+    }
+}
+
 

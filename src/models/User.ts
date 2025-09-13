@@ -1,5 +1,6 @@
-import mongoose, {Schema } from "mongoose"
+import mongoose, {Schema , Document, Model} from "mongoose"
 import bcrypt from 'bcrypt'
+import { IUser } from "../types";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
@@ -48,7 +49,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-userSchema.methods.comparePassword = async function (candidatePassword:string) {
+userSchema.methods.comparePassword = async  function (candidatePassword: string): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -62,6 +63,6 @@ userSchema.set("toJSON", {
   },
 });
 
-const User = mongoose.model("User", userSchema);
+const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
 
 export default User
