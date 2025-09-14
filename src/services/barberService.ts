@@ -81,9 +81,22 @@ export const deleteCustomHaircut = async (
     _id: haircutId,
     barber: barberId,
   });
-  if(!barberHaircut){
-    throw new Error("Haircut not found or you do not have permission to delete")
+  if (!barberHaircut) {
+    throw new Error(
+      "Haircut not found or you do not have permission to delete"
+    );
   }
 
-  return barberHaircut
+  return barberHaircut;
+};
+
+export const getAllHaircuts = async (
+  barberId: string
+): Promise<BarberHaircutDocument[]> => {
+  if (!barberId || !mongoose.Types.ObjectId.isValid(barberId)) {
+    throw new Error("Invalid barber Id");
+  }
+  return await BarberHaircut.find({ barber: barberId })
+    .populate("haircutTemplate", "name description baseCost baseDuration")
+    .lean();
 };

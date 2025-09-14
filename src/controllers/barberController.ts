@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createCustomHaircut,
   deleteCustomHaircut,
+  getAllHaircuts,
   updateBarberHaircut,
 } from "../services/barberService";
 
@@ -58,5 +59,16 @@ export const deleteHaircut = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     return res.status(404).json({ err: (err as Error).message });
+  }
+};
+
+export const allHaircuts = async (req: Request, res: Response) => {
+  try {
+    const { barberId } = req.params;
+    const haircuts = await getAllHaircuts(barberId)
+    return res.status(200).json(haircuts);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ err: (err as Error).message });
   }
 };
