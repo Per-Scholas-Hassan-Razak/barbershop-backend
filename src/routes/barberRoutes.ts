@@ -1,10 +1,16 @@
 import express from 'express'
-import { createBarber, getAllBarbers} from  '../controllers/barberController'
+import { requireAuth } from '../auth/auth';
+import { createHaircut,updateHaircut } from '../controllers/barberController';
+
 
 const router  = express.Router()
 
-router.get('/', getAllBarbers)
-router.post('/', createBarber)
+router.use(requireAuth);
+
+router.post("/:barberId/haircuts", createHaircut)
+router.put("/:barberId/haircuts/:haircutId", updateHaircut)
+
+
 
 
 

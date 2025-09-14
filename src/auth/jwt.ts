@@ -1,4 +1,3 @@
-import { error } from "console";
 import { JWTPayload } from "../types";
 import jwt from "jsonwebtoken";
 
