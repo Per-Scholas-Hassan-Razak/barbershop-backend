@@ -7,10 +7,10 @@ const router  = express.Router()
 
 router.use(requireAuth);
 
-router.get("/:barberId/haircuts", allHaircuts)
-router.post("/:barberId/haircuts", createHaircut)
-router.put("/:barberId/haircuts/:haircutId", updateHaircut)
-router.delete("/:barberId/haircuts/:haircutId", deleteHaircut)
+router.get("/haircuts", allHaircuts)
+router.post("/haircuts", createHaircut)
+router.put("/haircuts/:haircutId", updateHaircut)
+router.delete("/haircuts/:haircutId", deleteHaircut)
 
 
 

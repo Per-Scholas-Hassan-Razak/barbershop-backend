@@ -15,9 +15,13 @@ export const createHaircut = async (req: Request, res: Response) => {
     4. place the request in a try catch block and catch any errors here
     
     */
+   if (req.user.role !== "barber") {
+    return res.status(403).json({ error: "Only barbers can create barber specific haircuts" });
+  }
+
+  const barberId = req.user.sub;
 
   try {
-    const { barberId } = req.params;
     const { haircutTemplate, customPrice, customDuration, styleNotes } =
       req.body;
     const haircut = await createCustomHaircut({
@@ -41,8 +45,14 @@ export const updateHaircut = async (req: Request, res: Response) => {
     3. pass req params and body to service to update resource
     4. await response and throw error if error occirs
 */
+
+  if (req.user.role !== "barber") {
+    return res.status(403).json({ error: "Only barbers can update barber specific haircuts" });
+  }
+
+  const barberId = req.user.sub;
   try {
-    const { barberId, haircutId } = req.params;
+    const { haircutId } = req.params;
     const updated = await updateBarberHaircut(barberId, haircutId, req.body);
     return res.status(200).json(updated);
   } catch (err) {
@@ -52,9 +62,14 @@ export const updateHaircut = async (req: Request, res: Response) => {
 };
 
 export const deleteHaircut = async (req: Request, res: Response) => {
+  if (req.user.role !== "barber") {
+    return res.status(403).json({ error: "Only barbers can delete barber specific haircuts" });
+  }
+
+  const barberId = req.user.sub;
   try {
-    const { barberId, haircutId } = req.params;
-    const deleted = await deleteCustomHaircut(barberId, haircutId);
+    const { haircutId } = req.params;
+    await deleteCustomHaircut(barberId, haircutId);
     return res.status(204).end();
   } catch (err) {
     console.error(err);
@@ -63,9 +78,13 @@ export const deleteHaircut = async (req: Request, res: Response) => {
 };
 
 export const allHaircuts = async (req: Request, res: Response) => {
+  if (req.user.role !== "barber") {
+    return res.status(403).json({ error: "Only barbers can fetch barber specific haircuts" });
+  }
+
+  const barberId = req.user.sub;
   try {
-    const { barberId } = req.params;
-    const haircuts = await getAllHaircuts(barberId)
+    const haircuts = await getAllHaircuts(barberId);
     return res.status(200).json(haircuts);
   } catch (err) {
     console.error(err);
