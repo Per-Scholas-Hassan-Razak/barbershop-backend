@@ -7,6 +7,8 @@ import {
   UpdateBarberHaircutParams,
 } from "../types";
 
+import mongoose from "mongoose";
+
 export const createCustomHaircut = async (
   data: CreateHaircutInput
 ): Promise<BarberHaircutDocument> => {
@@ -62,9 +64,26 @@ export const updateBarberHaircut = async (
     { new: true }
   ).populate("haircutTemplate", "name description baseCost baseDuration");
 
-  if(!barberHaircut){
-    throw new Error("Haircut not found or your do not have permission to update")
+  if (!barberHaircut) {
+    throw new Error(
+      "Haircut not found or your do not have permission to update"
+    );
   }
 
   return barberHaircut;
+};
+
+export const deleteCustomHaircut = async (
+  barberId: string,
+  haircutId: string
+) => {
+  const barberHaircut = await BarberHaircut.findOneAndDelete({
+    _id: haircutId,
+    barber: barberId,
+  });
+  if(!barberHaircut){
+    throw new Error("Haircut not found or you do not have permission to delete")
+  }
+
+  return barberHaircut
 };

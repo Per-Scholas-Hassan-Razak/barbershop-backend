@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { createCustomHaircut, updateBarberHaircut } from "../services/barberService";
+import {
+  createCustomHaircut,
+  deleteCustomHaircut,
+  updateBarberHaircut,
+} from "../services/barberService";
 
 export const createHaircut = async (req: Request, res: Response) => {
   /*
@@ -30,18 +34,29 @@ export const createHaircut = async (req: Request, res: Response) => {
 };
 
 export const updateHaircut = async (req: Request, res: Response) => {
-/*
+  /*
     1. receive req body with update object
     2. receive req params with barberid and haircut id
     3. pass req params and body to service to update resource
     4. await response and throw error if error occirs
 */
-try{
-    const {barberId, haircutId} = req.params
-    const updated = await updateBarberHaircut(barberId, haircutId, req.body)
-    return res.status(200).json(updated)
-}catch(error){
-    console.error(error)
-    return res.status(500).json("internal server error")
-}
-}
+  try {
+    const { barberId, haircutId } = req.params;
+    const updated = await updateBarberHaircut(barberId, haircutId, req.body);
+    return res.status(200).json(updated);
+  } catch (err) {
+    console.error(err);
+    return res.status(404).json({ err: (err as Error).message });
+  }
+};
+
+export const deleteHaircut = async (req: Request, res: Response) => {
+  try {
+    const { barberId, haircutId } = req.params;
+    const deleted = await deleteCustomHaircut(barberId, haircutId);
+    return res.status(204).end();
+  } catch (err) {
+    console.error(err);
+    return res.status(404).json({ err: (err as Error).message });
+  }
+};
