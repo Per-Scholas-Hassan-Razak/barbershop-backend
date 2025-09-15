@@ -65,3 +65,20 @@ export interface UpdateBarberHaircutParams{
   customDuration?:number;
   styleNotes?:string
 }
+
+export interface QueueEntryDocument extends Document{
+  customer:mongoose.Types.ObjectId,
+  queue:mongoose.Types.ObjectId,
+  haircut:mongoose.Types.ObjectId,
+  position:number,
+  status:"waiting" | "in_progress" | "completed" |"cancelled",
+  createdAt:Date,
+  updatedAt:Date
+}
+
+export interface BarberQueueDocument extends Document {
+  barber: mongoose.Types.ObjectId;     
+  isOpen: boolean;                     
+  startedAt: Date;                     
+  closedAt?: Date;                     
+}
