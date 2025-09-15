@@ -1,4 +1,5 @@
 import BarberHaircut from "../models/BarberHaircut";
+import BarberQueue from "../models/BarberQueue";
 import HaircutTemplate from "../models/HaircutTemplate";
 import User from "../models/User";
 import {
@@ -99,4 +100,27 @@ export const getAllHaircuts = async (
   return await BarberHaircut.find({ barber: barberId })
     .populate("haircutTemplate", "name description baseCost baseDuration")
     .lean();
+};
+
+export const openForBusiness = async (barberId: string) => {
+  const exisiting = await BarberQueue.find({ barber: barberId, isOpen: true });
+  if (exisiting) {
+    throw new Error("You already have an open queue");
+  }
+  const newQueue = await BarberQueue.create({ barber: barberId, isOpen: true });
+  return newQueue;
+};
+
+export const closedForBusiness = async (barberId: string) => {
+  const exisiting = await BarberQueue.findOne({ barber: barberId, isOpen: true });
+  if (!exisiting) {
+    throw new Error("There are no open queues to close");
+  }
+  
+  exisiting.isOpen = false
+  exisiting.closedAt= new Date()
+  await exisiting.save()
+
+  return exisiting
+
 };
