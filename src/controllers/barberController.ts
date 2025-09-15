@@ -108,8 +108,6 @@ export const openBarberQueue = async (req: Request, res: Response) => {
   }
 
   const barberId = req.user.sub;
-  console.log("barber ID: ", barberId)
-
   try {
     const queue = await openForBusiness(barberId);
     return res.status(201).json(queue);
