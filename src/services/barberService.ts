@@ -103,7 +103,7 @@ export const getAllHaircuts = async (
 };
 
 export const openForBusiness = async (barberId: string) => {
-  const exisiting = await BarberQueue.find({ barber: barberId, isOpen: true });
+  const exisiting = await BarberQueue.findOne({ barber: barberId, isOpen: true });
   if (exisiting) {
     throw new Error("You already have an open queue");
   }

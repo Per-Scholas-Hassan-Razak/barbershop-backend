@@ -108,10 +108,11 @@ export const openBarberQueue = async (req: Request, res: Response) => {
   }
 
   const barberId = req.user.sub;
+  console.log("barber ID: ", barberId)
 
   try {
     const queue = await openForBusiness(barberId);
-    return res.status(201).end(queue);
+    return res.status(201).json(queue);
   } catch (err) {
     console.error(err);
     return res.status(400).json({ err: (err as Error).message });
@@ -127,7 +128,7 @@ export const closeBarberQueue = async (req: Request, res: Response) => {
 
   try {
     const queue = await closedForBusiness(barberId);
-    return res.status(200).end(queue);
+    return res.status(200).json(queue);
   } catch (err) {
     console.error(err);
     return res.status(400).json({ err: (err as Error).message });
