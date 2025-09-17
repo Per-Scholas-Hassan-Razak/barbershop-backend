@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon",
     "build": "tsc",
-   "start": "npm run build && NODE_ENV=production node dist/server.js"
+    "start": "npm run build && NODE_ENV=production node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +13,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
