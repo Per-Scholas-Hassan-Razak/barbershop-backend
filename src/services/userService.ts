@@ -10,7 +10,7 @@ export const createUser = async(data:UserDto) => {
         error.statusCode = 409
         throw error
     }
-    const newUser = await User.create({username:data.username,email:data.email, password:data.password, role:data.role})
+    const newUser = await User.create({username:data.username,email:data.email, password:data.password})
     return newUser
 }
 

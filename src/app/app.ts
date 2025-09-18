@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend dev server
+    origin: "http://localhost:5173",
     credentials: true, // allow cookies if you use them
   })
 );
@@ -18,6 +18,6 @@ app.use(express.json());
 
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/barbers", barberRoutes);
-app.use("/api/v1/queues", queueRoutes)
+app.use("/api/v1/queues", queueRoutes);
 
 export default app;
