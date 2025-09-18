@@ -5,7 +5,6 @@ dotenv.config();
 const URI = process.env.MONGO_URI
 
 const connectDB = async () => {
-  console.log("URI -> : " ,URI)
   try {
      return await mongoose.connect(URI as string);
   } catch (error) {
