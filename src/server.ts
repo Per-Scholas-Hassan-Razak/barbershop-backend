@@ -9,9 +9,9 @@ const env = process.env.NODE_ENV || "development";
 
 connectDB().then((conn) => {
   app.listen(PORT, () => {
-      env === "production"
-        ? console.log(`Production Server Running at: ${conn.connection.host}`)
-        : console.log(`Development Server Running at http://localhost:${PORT}`);
+     console.log(
+      `${env === "production" ? "Production" : "Development"} Server running at port ${PORT}`
+    );
   });
 });
 
