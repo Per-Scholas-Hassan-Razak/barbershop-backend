@@ -7,9 +7,12 @@ import cors from "cors";
 
 const app = express();
 const allowedOrigins = [
+  // Allows requests from local dev front end
   "http://localhost:5173",
-  "http://localhost:4173",
-  // "https://your-frontend-name.onrender.com" 
+  // Allows request from local dev:prod front end
+  "http://localhost:4173", 
+
+  // Use this slot for render hosted url
 ];
 
 app.use(
