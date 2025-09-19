@@ -6,11 +6,22 @@ import queueRoutes from "../routes/queueRoutes";
 import cors from "cors";
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  // "https://your-frontend-name.onrender.com" 
+];
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, // allow cookies if you use them
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
 
