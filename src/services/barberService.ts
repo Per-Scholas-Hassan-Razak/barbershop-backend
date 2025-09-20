@@ -5,10 +5,32 @@ import User from "../models/User";
 import {
   BarberHaircutDocument,
   CreateHaircutInput,
+  HaircutTemplateDocument,
   UpdateBarberHaircutParams,
 } from "../types";
 
 import mongoose from "mongoose";
+
+export const fetchAllTemplates = async (
+  barberId:string
+): Promise<HaircutTemplateDocument[]> => {
+  /*
+        1. receive barberid and check to see if the barber exists
+        2. pull the haircut template from the database
+        3. use the template to create a custom haircut with price time and description
+        from req body 
+        4. return the haircut and assign it to the barberId for future pulling
+    */
+  const barber = await User.findById(barberId);
+
+  if (!barber) {
+    throw new Error("Barber Not Found");
+  }
+
+  const templates = await HaircutTemplate.find({});
+
+  return templates
+};
 
 export const createCustomHaircut = async (
   data: CreateHaircutInput
@@ -29,6 +51,10 @@ export const createCustomHaircut = async (
     throw new Error("Barber Not Found");
   }
 
+  if (!mongoose.Types.ObjectId.isValid(haircutTemplate)) {
+  throw new Error("Invalid template ID format");
+}
+
   const template = await HaircutTemplate.findById(haircutTemplate);
   if (!template) {
     throw new Error("Haircut Template not found");
@@ -41,6 +67,8 @@ export const createCustomHaircut = async (
     customDuration,
     styleNotes,
   });
+
+  console.log("haircut template id : ",haircutTemplate)
 
   const result = await BarberHaircut.findById(barberHaircut._id).populate(
     "haircutTemplate",

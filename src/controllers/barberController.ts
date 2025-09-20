@@ -6,7 +6,35 @@ import {
   openForBusiness,
   closedForBusiness,
   updateBarberHaircut,
+  fetchAllTemplates
 } from "../services/barberService";
+
+export const allTemplates = async (req: Request, res: Response) => {
+  /*
+    1.pull the users id from the req body that was passed from 
+        auth middleware
+    2. create a service layer method called customeHaircut
+    3. await the creation at the controller level
+    4. place the request in a try catch block and catch any errors here
+    
+    */
+  if (req.user.role !== "barber") {
+    return res
+      .status(403)
+      .json({ error: "Only barbers can access haircut templates" });
+  }
+
+  const barberId = req.user.sub;
+
+  try {
+    const templates = await fetchAllTemplates(barberId)
+    return res.status(201).json(templates);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ err: (err as Error).message });
+  }
+};
+
 
 export const createHaircut = async (req: Request, res: Response) => {
   /*
@@ -28,6 +56,7 @@ export const createHaircut = async (req: Request, res: Response) => {
   try {
     const { haircutTemplate, customPrice, customDuration, styleNotes } =
       req.body;
+      console.log("req body", req.body)
     const haircut = await createCustomHaircut({
       barberId,
       haircutTemplate,

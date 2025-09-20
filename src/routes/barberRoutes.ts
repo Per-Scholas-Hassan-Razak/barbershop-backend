@@ -7,12 +7,15 @@ import {
   allHaircuts,
   openBarberQueue,
   closeBarberQueue,
+  allTemplates
 } from "../controllers/barberController";
 
 const router = express.Router();
 
 router.use(requireAuth);
 
+
+router.get("/haircuts/templates", allTemplates);
 router.get("/haircuts", allHaircuts);
 router.post("/haircuts", createHaircut);
 router.put("/haircuts/:haircutId", updateHaircut);
