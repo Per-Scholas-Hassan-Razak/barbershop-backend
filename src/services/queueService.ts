@@ -5,7 +5,7 @@ import QueueEntry from "../models/QueueEntry";
 export const getAllQueues = async () => {
   const queues = await BarberQueue.find({ isOpen: true }).populate(
     "barber",
-    "username specialities"
+    "username shopName bio rating"
   );
   return queues;
 };
@@ -14,12 +14,12 @@ export const getQueueByBarber = async (barberId: string) => {
   const queue = await BarberQueue.findOne({
     barber: barberId,
     isOpen: true,
-  }).populate("barber", "username specialities");
+  }).populate("barber", "username shopName bio rating");
   if (!queue) return null;
 
   const entries = await QueueEntry.find({ queue: queue._id })
     .populate("customer", "username email")
-    .populate("haircut", "customePrice  customeDuration styleNotes")
+    .populate("haircut", "customPrice  customDuration styleNotes")
     .sort({ position: 1 });
 
   return { queue, entries };
