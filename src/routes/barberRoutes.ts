@@ -7,7 +7,8 @@ import {
   allHaircuts,
   openBarberQueue,
   closeBarberQueue,
-  allTemplates
+  allTemplates,
+  getQueueState
 } from "../controllers/barberController";
 
 const router = express.Router();
@@ -23,5 +24,7 @@ router.delete("/haircuts/:haircutId", deleteHaircut);
 
 router.post("/queue/open", openBarberQueue);
 router.patch("/queue/close", closeBarberQueue);
+router.get("/queue/state", getQueueState)
+
 
 export default router;

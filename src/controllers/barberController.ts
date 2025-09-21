@@ -8,6 +8,7 @@ import {
   updateBarberHaircut,
   fetchAllTemplates
 } from "../services/barberService";
+import BarberQueue from "../models/BarberQueue";
 
 export const allTemplates = async (req: Request, res: Response) => {
   /*
@@ -159,5 +160,17 @@ export const closeBarberQueue = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     return res.status(400).json({ err: (err as Error).message });
+  }
+};
+
+
+export const getQueueState = async (req: Request, res: Response) => {
+  const barberId = req.user.sub;
+  try {
+    const queue = await BarberQueue.findOne({ barber: barberId });
+    return res.json({ isOpen: queue?.isOpen ?? false });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch queue state" });
   }
 };
