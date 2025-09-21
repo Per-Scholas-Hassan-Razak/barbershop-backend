@@ -5,6 +5,7 @@ import {
   getQueueByBarber,
   joinBarberQueue,
 } from "../services/queueService";
+import BarberHaircut from "../models/BarberHaircut";
 
 export const allQueues = async (req: Request, res: Response) => {
   try {
@@ -84,5 +85,19 @@ export const myQueuePosition = async (req: Request, res: Response) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: (err as Error).message });
+  }
+};
+
+// queueController.ts
+export const barberHaircutsPublic = async (req: Request, res: Response) => {
+  const { barberId } = req.params;
+  try {
+    const haircuts = await BarberHaircut.find({ barber: barberId })
+      .populate("haircutTemplate", "name baseCost baseDuration")
+      .lean();
+    return res.status(200).json(haircuts);
+  } catch (err) {
+    console.error(err);
+    return res.status(400).json({ err: (err as Error).message });
   }
 };
