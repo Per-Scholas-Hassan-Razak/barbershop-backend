@@ -65,7 +65,7 @@ export const joinQueue = async (req: Request, res: Response) => {
 };
 
 export const myQueuePosition = async (req: Request, res: Response) => {
-  if (req.user.role !== "customerr") {
+  if (req.user.role !== "customer") {
     return res
       .status(403)
       .json({ error: "Only customers can fetch wait times" });
