@@ -12,7 +12,7 @@ Backend API is hosted on Render:
 👉 [Barbershop Backend API](https://barbershop-backend-hkms.onrender.com/api/v1)
 
 Frontend repo:  
-👉 [Barbershop Frontend](https://github.com/Per-Scholas-Hassan-Razak/barbershop-frontend)
+👉 [Barbershop Frontend](https://barbershop-frontend-wq4c.onrender.com/)
 
 ---
 
