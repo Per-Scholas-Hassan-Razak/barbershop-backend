@@ -33,7 +33,7 @@ export const joinBarberQueue = async (
   const queue = await BarberQueue.findOne({
     barber: barberId,
     isOpen: true,
-  }).populate("barber", "username specialities");
+  }).populate("barber", "username shopName bio rating");
 
   if (!queue) return null;
 
@@ -43,9 +43,16 @@ export const joinBarberQueue = async (
     haircut: barberHaircut,
   });
 
-  const entries = await QueueEntry.find({ queue: queue._id })
+   const entries = await QueueEntry.find({ queue: queue._id })
     .populate("customer", "username email")
-    .populate("haircut", "customePrice  customeDuration styleNotes")
+    .populate({
+      path: "haircut",
+      select: "customPrice customDuration styleNotes haircutTemplate",
+      populate: {
+        path: "haircutTemplate",
+        select: "name baseCost baseDuration",
+      },
+    })
     .sort({ position: 1 });
 
   return { queue, entries };

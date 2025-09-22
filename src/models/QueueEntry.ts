@@ -19,8 +19,7 @@ const queueEntrySchema = new Schema<QueueEntryDocument>(
       required: true,
     },
     position: {
-      type: Number,
-      required: true,
+      type: Number
     },
     status: {
       type: String,
